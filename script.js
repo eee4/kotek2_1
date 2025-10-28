@@ -48,8 +48,34 @@
 
   })
 
+  // Zad. 2_1.3.
   cw2.addEventListener("click", function () {
-    //TODO
+    const loadingText = document.createElement("div");
+    loadingText.insertAdjacentHTML("beforeend", "<span style=\"color: blue;\"><b>Loading...</b></span>");
+    answer.append(loadingText);
+
+    setTimeout(() => {
+      fetch(`https://jsonplaceholder.typicode.com/posts/${Math.floor(Math.random() * 100)}`)
+        .then(response => response.json())
+        .then(o => {
+          console.log(o);
+          answer.innerHTML = "";
+          let div        = document.createElement("div");
+          let postMeta   = document.createElement("p");
+          let postTitle  = document.createElement("h3");
+          let postBody   = document.createElement("p");
+
+          div.classList.add("generic_post");
+          div.id = `post${o.id}`;
+
+          postMeta.append(`Post #${o.id} by user #${o.userId}`);
+          postTitle.append(o.title);
+          postBody.insertAdjacentHTML("beforeend", `<i>${o.body.replace("\n", "<br/>")}</i>`);
+          div.append(postMeta, postTitle, postBody);
+          
+          answer.append(div);
+      })
+    }, 2000);
   })
 
   cw3.addEventListener("click", function () {
